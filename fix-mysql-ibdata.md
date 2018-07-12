@@ -32,3 +32,37 @@ Verifique se o script deleta os bancos de dados necessário e execute-o:
 ```
 mysql -u root -p < drop-script.sql
 ```
+
+### 4. Apagando os arquivos `InnoDB` existentes
+
+```
+service mysql stop
+rm /var/lib/mysql/ibdata1 && rm /var/lib/mysql/ib_logfile0 && rm /var/lib/mysql/ib_logfile1
+```
+
+### 5. Habilitando InnoDB por tabela
+
+```
+vim /etc/mysql/my.cnf
+```
+
+Adicione essas linhas:
+```
+innodb_file_per_table = 1
+innodb_file_format = barracuda
+```
+
+### 6. Restaurar os dados
+
+```
+service mysql start
+mysql -u root -p < all-db.sql
+```
+
+Executar mysql_upgrade para gerar a tabela `performance_schema`
+
+```
+mysql_upgrade --force
+```
+
+
