@@ -80,6 +80,26 @@ git commit -m "Commit"
 git push -u deploy master
 ```
 
+## Redirecionar o fluxo para o diretório do seu projeto
+
+Como o projeto está em um diretório dentro de `public_html`, para acessar o site, seria necessário adicionar o nome do diretório na URL. 
+
+EX: http://www.meudominio.com/repository-name
+
+Para evitar isso, podemos adicionar um arquivo que encaminha as requisições do domínio principal (http://www.meudominio.com) para o diretório de nossa escolha. Para fazer isso, basta adicionar um arquivo chamado `.htaccess` dentro do diretório `public_html`, com o seguinte conteúdo:
+
+```
+RewriteEngine On
+RewriteBase /
+
+RewriteCond %{THE_REQUEST} /REPO-NAME/([^\s?]*) [NC]
+RewriteRule ^ %1 [L,NE,R=302]
+
+RewriteRule ^((?!REPO-NAME/).*)$ REPO-NAME/$1 [L,NC]
+```
+
+Lembre-se de substituir `REPO-NAME` pelo nome do seu repositório.
+
 ## Possíveis erros
 
 Erro: `fatal: The remote end hung up unexpectedly`
