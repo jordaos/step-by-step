@@ -79,3 +79,9 @@ git add .
 git commit -m "Commit"
 git push -u deploy master
 ```
+
+## Possíveis erros
+
+Erro: `fatal: The remote end hung up unexpectedly`
+
+Correção: `git config http.postBuffer 524288000`
